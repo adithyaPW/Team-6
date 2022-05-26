@@ -1,0 +1,44 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(2,3,4,5,6,7,8);
+float sound;
+int soundPin = A2;
+int led1 = A1;
+int led2 = A0;
+int buzzer = 13;
+int digitalPin = A3;
+int digital;
+void setup() {
+ // put your setup code here, to run once:
+ pinMode(led1,OUTPUT);
+ pinMode(led2,OUTPUT);
+ pinMode(buzzer,OUTPUT);
+ pinMode(digitalPin,INPUT); 
+ Serial.begin (9600);
+lcd.begin(16, 2); 
+void loop() {
+ digital=digitalRead(digitalPin);
+if(digital==HIGH) {
+digitalWrite(led1,LOW);
+digitalWrite(led2,HIGH);
+lcd.setCursor(0,0); 
+lcd.print("Sound= 56.37 db ");
+lcd.setCursor(0,1);
+lcd.print("-suasana bising-");
+digitalWrite(buzzer,HIGH);
+delay(3000);
+}
+else{
+lcd.setCursor(0,1);
+lcd.print("----kondusif----");
+digitalWrite(led1,HIGH);
+digitalWrite(led2,LOW);
+digitalWrite(buzzer,LOW);
+}
+sound = analogRead(A2);
+sound = (20*log(10))*(sound/100)-208;
+lcd.setCursor(0,0);
+ lcd.print("Sound= ");
+lcd.print(sound);
+lcd.print(" dB ");
+delay(250);
+} 
